@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_view_daily_proof.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 class ViewDailyProofActivity : BaseActivity() {
@@ -38,9 +39,15 @@ class ViewDailyProofActivity : BaseActivity() {
                 selectedDate.set(year, month, dayOfMonth)
 
 
-                Log.d("선택된 년", selectedDate.get(Calendar.YEAR).toString())
-                Log.d("선택된 월", selectedDate.get(Calendar.MONTH).toString())
-                Log.d("선택된 일", selectedDate.get(Calendar.DAY_OF_MONTH).toString())
+//                Log.d("선택된 년", selectedDate.get(Calendar.YEAR).toString())
+//                Log.d("선택된 월", selectedDate.get(Calendar.MONTH).toString())
+//                Log.d("선택된 일", selectedDate.get(Calendar.DAY_OF_MONTH).toString())
+
+                val sdf = SimpleDateFormat("yyyy-MM-dd")
+
+                val selectedDateStr = sdf.format(selectedDate.time)
+
+                selectedDateTxt.text = selectedDateStr
 
 //                실생활 : 1~12월
 //                JAVA / Kotlin : 0~11월
