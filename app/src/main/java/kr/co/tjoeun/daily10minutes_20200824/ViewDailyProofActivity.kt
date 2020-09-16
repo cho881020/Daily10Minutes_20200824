@@ -5,10 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_view_daily_proof.*
+import kr.co.tjoeun.daily10minutes_20200824.datas.Project
+import kr.co.tjoeun.daily10minutes_20200824.utils.ServerUtil
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ViewDailyProofActivity : BaseActivity() {
+
+    lateinit var mProject : Project
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +57,11 @@ class ViewDailyProofActivity : BaseActivity() {
 //                실생활 : 1~12월
 //                JAVA / Kotlin : 0~11월
 
+
+//                해당 날짜의 인증글 목록 불러오기
+                getProofListByDate(selectedDateStr)
+
+
             }, 2020, Calendar.JUNE, 9)
             datePickerDialog.show()
 
@@ -60,6 +70,8 @@ class ViewDailyProofActivity : BaseActivity() {
     }
 
     override fun setValues() {
+
+        mProject = intent.getSerializableExtra("project") as Project
 
 //        이 화면이 실행되면 오늘날짜를 => 2020년 9월 5일 양식으로 selectedDateTxt 에 출력
 
@@ -70,6 +82,17 @@ class ViewDailyProofActivity : BaseActivity() {
         val todayStr = sdf.format(todayCal.time)
 
         selectedDateTxt.text = todayStr
+
+    }
+
+    fun getProofListByDate(date:String) {
+
+        ServerUtil.getRequestProjectProofByIdAndDate(mContext, mProject.id, date, object : ServerUtil.JsonResponseHandler {
+            override fun onResponse(json: JSONObject) {
+
+            }
+
+        })
 
     }
 
