@@ -6,14 +6,18 @@ import android.os.Bundle
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_view_daily_proof.*
 import kr.co.tjoeun.daily10minutes_20200824.datas.Project
+import kr.co.tjoeun.daily10minutes_20200824.datas.Proof
 import kr.co.tjoeun.daily10minutes_20200824.utils.ServerUtil
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class ViewDailyProofActivity : BaseActivity() {
 
     lateinit var mProject : Project
+
+    val mProofList = ArrayList<Proof>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,6 +93,16 @@ class ViewDailyProofActivity : BaseActivity() {
 
         ServerUtil.getRequestProjectProofByIdAndDate(mContext, mProject.id, date, object : ServerUtil.JsonResponseHandler {
             override fun onResponse(json: JSONObject) {
+
+                val dataObj = json.getJSONObject("data")
+                val projectObj = dataObj.getJSONObject("project")
+
+                val proofsJsonArr = projectObj.getJSONArray("proofs")
+
+                for (i in    0 until proofsJsonArr.length()) {
+                    val proof = Proof.getProofFromJson(proofsJsonArr.getJSONObject(i))
+                    mProofList.add(proof)
+                }
 
             }
 
