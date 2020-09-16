@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_view_daily_proof.*
+import kr.co.tjoeun.daily10minutes_20200824.adapters.ProofAdapter
 import kr.co.tjoeun.daily10minutes_20200824.datas.Project
 import kr.co.tjoeun.daily10minutes_20200824.datas.Proof
 import kr.co.tjoeun.daily10minutes_20200824.utils.ServerUtil
@@ -18,6 +19,8 @@ class ViewDailyProofActivity : BaseActivity() {
     lateinit var mProject : Project
 
     val mProofList = ArrayList<Proof>()
+
+    lateinit var mProofAdapter : ProofAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,6 +78,9 @@ class ViewDailyProofActivity : BaseActivity() {
 
     override fun setValues() {
 
+        mProofAdapter = ProofAdapter(mContext, R.layout.proof_list_item, mProofList)
+        proofListView.adapter = mProofAdapter
+
         mProject = intent.getSerializableExtra("project") as Project
 
 //        이 화면이 실행되면 오늘날짜를 => 2020년 9월 5일 양식으로 selectedDateTxt 에 출력
@@ -103,6 +109,11 @@ class ViewDailyProofActivity : BaseActivity() {
                     val proof = Proof.getProofFromJson(proofsJsonArr.getJSONObject(i))
                     mProofList.add(proof)
                 }
+
+                runOnUiThread {
+                    mProofAdapter.notifyDataSetChanged()
+                }
+
 
             }
 

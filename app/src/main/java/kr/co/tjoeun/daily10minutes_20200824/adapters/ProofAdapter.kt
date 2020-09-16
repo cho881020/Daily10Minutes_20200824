@@ -31,6 +31,13 @@ class ProofAdapter(
 
         val row = tempRow!!
 
+        val proofContentTxt = row.findViewById<TextView>(R.id.proofContentTxt)
+        val proofFirstImg = row.findViewById<ImageView>(R.id.proofFirstImg)
+
+        val data = mList[position]
+
+        proofContentTxt.text = data.content
+
         return row
     }
 
