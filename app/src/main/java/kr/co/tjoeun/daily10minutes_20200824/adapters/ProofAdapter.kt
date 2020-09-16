@@ -33,6 +33,8 @@ class ProofAdapter(
 
         val proofContentTxt = row.findViewById<TextView>(R.id.proofContentTxt)
         val proofFirstImg = row.findViewById<ImageView>(R.id.proofFirstImg)
+        val writerProfileImg = row.findViewById<ImageView>(R.id.writerProfileImg)
+        val writerNickNameTxt = row.findViewById<TextView>(R.id.writerNickNameTxt)
 
         val data = mList[position]
 
@@ -52,6 +54,12 @@ class ProofAdapter(
             proofFirstImg.visibility = View.VISIBLE
             Glide.with(mContext).load(data.imgList[0]).into(proofFirstImg)
         }
+
+//        작성자 프사 / 닉네임 반영
+
+        Glide.with(mContext).load(data.writer.profileImageArrayList[0]).into(writerProfileImg)
+
+        writerNickNameTxt.text = data.writer.nickName
 
         return row
     }
